@@ -6,31 +6,42 @@ script/source = "extends Node2D
 var tile_size = 20
 var tile_padding = 2
 var direction = Vector2(1, 0)
+var movement_fps = 10
+var forced_fps = 100
+var move_frames_per_forced_frame = round(forced_fps / movement_fps)
+var fps_counter = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$ColorRect.set_size(Vector2(tile_size, tile_size))
 
 func _process(_delta):
-	if Input.is_action_pressed(\"ui_left\"):
-		direction = Vector2(-1, 0)
-	if Input.is_action_pressed(\"ui_right\"):
-		direction = Vector2(1, 0)
-	if Input.is_action_pressed(\"ui_down\"):
-		direction = Vector2(0, 1)
-	if Input.is_action_pressed(\"ui_up\"):
-		direction = Vector2(0, -1)
+	fps_counter += 1
+	direction = _get_direction(direction)
 	
-	position.x += direction.x * tile_size
-	position.y += direction.y * tile_size
+	if fps_counter >= move_frames_per_forced_frame:
+		fps_counter = 0
+		position.x += direction.x * tile_size
+		position.y += direction.y * tile_size
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _get_direction(_direction : Vector2) -> Vector2:
+	if Input.is_action_pressed(\"ui_left\"):
+		_direction = Vector2(-1, 0)
+	if Input.is_action_pressed(\"ui_right\"):
+		_direction = Vector2(1, 0)
+	if Input.is_action_pressed(\"ui_down\"):
+		_direction = Vector2(0, 1)
+	if Input.is_action_pressed(\"ui_up\"):
+		_direction = Vector2(0, -1)
+	return _direction
 "
 
 [node name="SnakeHead" type="Node2D"]
+position = Vector2( 227.52, 139.285 )
 script = SubResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_left = -20.0
