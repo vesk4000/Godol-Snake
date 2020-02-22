@@ -1,52 +1,13 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://SnakeHead.gd" type="Script" id=1]
+[ext_resource path="res://Rect.tscn" type="PackedScene" id=2]
 
 [node name="SnakeHead" type="Node2D"]
-position = Vector2( 100, 100 )
+position = Vector2( 120, 120 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
 }
 
-[node name="MainColorRect" type="ColorRect" parent="."]
-margin_right = 10.0
-margin_bottom = 10.0
-color = Color( 1, 0, 0, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TopColorRect" type="ColorRect" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
-color = Color( 0.12549, 1, 0, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="BottomColorRect" type="ColorRect" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
-color = Color( 0, 1, 0.670588, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="LeftColorRect" type="ColorRect" parent="."]
-visible = false
-margin_right = 40.0
-margin_bottom = 40.0
-color = Color( 0, 0.156863, 1, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="RightColorRect" type="ColorRect" parent="."]
-visible = false
-margin_right = 40.0
-margin_bottom = 40.0
-color = Color( 0.431373, 0, 1, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Rect" parent="." instance=ExtResource( 2 )]
