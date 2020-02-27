@@ -1,9 +1,28 @@
 extends Node
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+var tile_size = 20
+var tile_padding = 2
+var screen_width = 600;
+var screen_height = 600;
+
+func setup_rects(var _self):
+	_self.get_node("Rect/MainColorRect").margin_top = tile_padding
+	_self.get_node("Rect/MainColorRect").margin_bottom = tile_size - tile_padding
+	_self.get_node("Rect/MainColorRect").margin_left = tile_padding
+	_self.get_node("Rect/MainColorRect").margin_right = tile_size - tile_padding
+	
+	_self.get_node("Rect/TopColorRect").set_position(Vector2(tile_padding, 0))
+	_self.get_node("Rect/TopColorRect").set_size(Vector2(tile_size - 2 * tile_padding, tile_padding))
+	
+	_self.get_node("Rect/BottomColorRect").set_position(Vector2(tile_padding, tile_size - tile_padding))
+	_self.get_node("Rect/BottomColorRect").set_size(Vector2(tile_size - 2 * tile_padding, tile_padding))
+	
+	_self.get_node("Rect/LeftColorRect").set_position(Vector2(0, tile_padding))
+	_self.get_node("Rect/LeftColorRect").set_size(Vector2(tile_padding, tile_size - 2 * tile_padding))
+	
+	_self.get_node("Rect/RightColorRect").set_position(Vector2(tile_size - tile_padding, tile_padding))
+	_self.get_node("Rect/RightColorRect").set_size(Vector2(tile_padding, tile_size - 2 * tile_padding))
 
 
 func wrap(var number, var min_value, var max_value):
