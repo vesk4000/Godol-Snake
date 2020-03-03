@@ -1,15 +1,19 @@
 extends Node2D
 
 
+# Initialise direction
 var direction = Vector2(1, 0)
 var old_direction = direction
+
+# Initialise FPS
 var movement_fps = 10
 var forced_fps = 100
 var move_frames_per_forced_frame = round(forced_fps / movement_fps)
 var fps_counter = 0
 
+# Initialise the tail
 const SnakeTail = preload("res://SnakeTail.tscn")
-var tail_left_to_add = 6
+var tail_to_add = 6
 var tail = []
 
 
@@ -20,6 +24,7 @@ func _ready():
 func _process(_delta):
 	fps_counter += 1
 	
+	# Handle direction
 	_set_direction()
 	
 	# Move the snake
@@ -42,9 +47,9 @@ func _process(_delta):
 				else:
 					tail[i].position = tail[i - 1].position
 		
-		#Add to the tail
-		if(tail_left_to_add > 0):
-			tail_left_to_add -= 1
+		# Add to the tail
+		if(tail_to_add > 0):
+			tail_to_add -= 1
 			var _snake_tail = SnakeTail.instance()
 			get_node("../").add_child(_snake_tail)
 			tail.append(_snake_tail)
@@ -53,11 +58,10 @@ func _process(_delta):
 		# Move the snake's head
 		position.x += direction.x * Global.tile_size
 		position.y += direction.y * Global.tile_size
-		position.x = Global.wrap(position.x, 0, 600)
-		position.y = Global.wrap(position.y, 0, 600)
-		old_direction = direction
+		position.x = Global.wrap(position.x, 0, Global.screen_width)
+		position.y = Global.wrap(position.y, 0, Global.screen_height)
 		
-		# Animate
+		# Animate Snake
 		# Animate Head
 		if tail.size() > 0:
 			_hide_rect(self)
@@ -87,20 +91,22 @@ func _set_direction():
 	if Input.is_action_pressed("ui_up") and old_direction.y == 0:
 		_new_direction = Vector2(0, -1)
 	direction = _new_direction
+	if fps_counter >= move_frames_per_forced_frame:
+		old_direction = direction
 
 
 func _animate(var _root, var _check):
 	# Above
-	if Global.wrap(_root.position.y - Global.tile_size, 0, 600) == _check.position.y:
+	if Global.wrap(_root.position.y - Global.tile_size, 0, Global.screen_height) == _check.position.y:
 		_get_top_rect(_root).show()
 	# Below
-	if Global.wrap(_root.position.y + Global.tile_size, 0, 600) == _check.position.y:
+	if Global.wrap(_root.position.y + Global.tile_size, 0, Global.screen_height) == _check.position.y:
 		_get_bottom_rect(_root).show()
 	# Right
-	if Global.wrap(_root.position.x + Global.tile_size, 0, 600) == _check.position.x:
+	if Global.wrap(_root.position.x + Global.tile_size, 0, Global.screen_width) == _check.position.x:
 		_get_right_rect(_root).show()
 	# Left
-	if Global.wrap(_root.position.x - Global.tile_size, 0, 600) == _check.position.x:
+	if Global.wrap(_root.position.x - Global.tile_size, 0, Global.screen_width) == _check.position.x:
 		_get_left_rect(_root).show()
 
 
