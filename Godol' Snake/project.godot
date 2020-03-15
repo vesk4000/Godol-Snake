@@ -16,7 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Godol' Snake"
-run/main_scene="res://SnakeHead.tscn"
+run/main_scene="res://Level.tscn"
 config/icon="res://icon.png"
 
 [autoload]
@@ -30,6 +30,7 @@ settings/fps/force_fps=100
 [display]
 
 window/size/width=600
+window/size/always_on_top=true
 
 [rendering]
 

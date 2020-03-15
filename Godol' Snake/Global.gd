@@ -4,6 +4,8 @@ extends Node
 var tile_size = 20
 var tile_padding = 2
 
+var rng = RandomNumberGenerator.new()
+
 # Globalise screen_width and screen_height
 var screen_width = ProjectSettings.get_setting("display/window/size/width") \
 		setget _set_screen_width, _get_screen_width

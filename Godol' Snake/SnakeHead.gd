@@ -19,6 +19,12 @@ var tail = []
 
 func _ready():
 	Global.setup_rects(self)
+	if get_parent().has_node("Fruit"):
+		$"../Fruit".connect("was_eaten", self, "_eat_fruit")
+
+
+func _eat_fruit():
+	tail_to_add += 1
 
 
 func _process(_delta):
