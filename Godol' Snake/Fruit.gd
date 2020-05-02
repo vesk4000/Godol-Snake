@@ -8,7 +8,7 @@ func _ready():
 	$ColorRect.margin_right = Global.tile_size - Global.tile_padding
 	$ColorRect.margin_top = Global.tile_padding
 	$ColorRect.margin_bottom = Global.tile_size - Global.tile_padding
-	_new_position()
+	#_new_position()
 
 
 # Check if the fruit has been eaten
