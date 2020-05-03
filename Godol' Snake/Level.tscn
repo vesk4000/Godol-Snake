@@ -15,5 +15,5 @@ position = Vector2( 300, 300 )
 [node name="Fruit" parent="." instance=ExtResource( 2 )]
 position = Vector2( 380, 300 )
 
-[node name="Control" parent="." instance=ExtResource( 4 )]
-[connection signal="start_game" from="Control" to="SnakeHead" method="_on_Control_start_game"]
+[node name="MainMenu" parent="." instance=ExtResource( 4 )]
+[connection signal="start_game" from="MainMenu" to="SnakeHead" method="_on_Control_start_game"]

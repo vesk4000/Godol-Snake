@@ -1,42 +1,37 @@
 extends Node2D
 
+
+# Game states
 enum GameStates {PAUSED, RUNNING, END}
 var game_state = GameStates.PAUSED
 var game_has_started = false
 
-# Initialise direction
+# Drection
 var direction = Vector2(1, 0)
 var old_direction = direction
 
-# Initialise FPS
+# FPS
 var movement_fps = 10
 var forced_fps = 100
 var move_frames_per_forced_frame = round(forced_fps / movement_fps)
 var fps_counter = 0
 
-# Initialise the tail
+# Tail
 const SnakeTail = preload("res://SnakeTail.tscn")
 var tail_to_add = 6
 var tail = []
 var _last_tail_pos
 
+
+# Setup
 func _ready():
 	Global.setup_rects(self)
 	if get_parent().has_node("Fruit"):
 		$"../Fruit".connect("was_eaten", self, "_eat_fruit")
 
-func _add_to_tail():
-	var _snake_tail = SnakeTail.instance()
-	get_node("../").add_child(_snake_tail)
-	tail.append(_snake_tail)
-	tail[tail.size() - 1].position = _last_tail_pos
 
-func _eat_fruit():
-	tail_to_add += 1
-
-
+# The main loop of the game
 func _process(_delta):
-	print(tail.size())
 	if game_state == GameStates.PAUSED and !game_has_started:
 		game_has_started = true
 		_last_tail_pos = position
@@ -88,6 +83,7 @@ func _process(_delta):
 	_animate_snake();
 
 
+# Gets the input and sets the direction of the snake accordingly
 func _set_direction():
 	var _new_direction = direction
 	if Input.is_action_pressed("ui_left") and old_direction.x == 0:
@@ -103,6 +99,21 @@ func _set_direction():
 		old_direction = direction
 
 
+# Add a tail piece to the snake
+func _add_to_tail():
+	var _snake_tail = SnakeTail.instance()
+	get_node("../").add_child(_snake_tail)
+	tail.append(_snake_tail)
+	tail[tail.size() - 1].position = _last_tail_pos
+
+
+# Eat fruit
+func _eat_fruit():
+	tail_to_add += 1
+
+# Animate each part of the snake
+# checks where the _check part of the snake is comapred to the _root
+# and animates(unhides the surrounding rectangles) accordingly
 func _animate(var _root, var _check):
 	# Above
 	if Global.wrap(_root.position.y - Global.tile_size, 0, Global.screen_height) == _check.position.y:
@@ -117,6 +128,8 @@ func _animate(var _root, var _check):
 	if Global.wrap(_root.position.x - Global.tile_size, 0, Global.screen_width) == _check.position.x:
 		_get_left_rect(_root).show()
 
+
+# Animate the whole snake
 func _animate_snake():
 	# Animate Head
 	if tail.size() > 0:
@@ -136,13 +149,15 @@ func _animate_snake():
 			_animate(tail[i], tail[i - 1])
 
 
+# Hide all of the rectangles used for animation
 func _hide_rect(var _node):
-	_get_bottom_rect(_node).hide()
 	_get_top_rect(_node).hide()
+	_get_bottom_rect(_node).hide()
 	_get_left_rect(_node).hide()
 	_get_right_rect(_node).hide()
 
 
+# Interface for easier access to the rectagnles used for animation
 func _get_top_rect(var _node):
 	return _node.get_node("Rect/TopColorRect")
 func _get_bottom_rect(var _node):
@@ -153,5 +168,6 @@ func _get_right_rect(var _node):
 	return _node.get_node("Rect/RightColorRect")
 
 
+# Signal connected to the Main Menu in order to start the game
 func _on_Control_start_game():
 	game_state = GameStates.RUNNING
