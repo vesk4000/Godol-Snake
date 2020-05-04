@@ -1,8 +1,9 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://RobotoSlab-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://UI/Fonts/RobotoSlab-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Button.gd" type="Script" id=2]
 [ext_resource path="res://Button2.gd" type="Script" id=3]
+
 
 [sub_resource type="DynamicFont" id=1]
 size = 72

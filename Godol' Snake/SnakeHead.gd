@@ -26,30 +26,31 @@ var _last_tail_pos
 # Setup
 func _ready():
 	Global.setup_rects(self)
+	
 	if get_parent().has_node("Fruit"):
+# warning-ignore:return_value_discarded
 		$"../Fruit".connect("was_eaten", self, "_eat_fruit")
+	
+	# Add the tail that you start with
+	_last_tail_pos = position
+# warning-ignore:unused_variable
+	for i in range(tail_to_add):
+		_last_tail_pos.x -= Global.tile_size
+		_add_to_tail()
+	tail_to_add = 0
+	_animate_snake()
 
 
 # The main loop of the game
 func _process(_delta):
-	if game_state == GameStates.PAUSED and !game_has_started:
-		game_has_started = true
-		_last_tail_pos = position
-		for i in range(tail_to_add):
-			_last_tail_pos.x -= Global.tile_size
-			_add_to_tail()
-		tail_to_add = 0
-		_animate_snake()
-	
 	if game_state != GameStates.RUNNING:
 		return
-	
-	fps_counter += 1
 	
 	# Handle direction
 	_set_direction()
 	
 	# Move the snake
+	fps_counter += 1
 	if fps_counter >= move_frames_per_forced_frame:
 		fps_counter = 0
 		
@@ -79,8 +80,12 @@ func _process(_delta):
 		position.x = Global.wrap(position.x, 0, Global.screen_width)
 		position.y = Global.wrap(position.y, 0, Global.screen_height)
 		
-	# Animate Snake
-	_animate_snake();
+		# This is used for making sure that you can't
+		# change your direction to the opposite direction
+		old_direction = direction
+		
+		# Animate Snake
+		_animate_snake();
 
 
 # Gets the input and sets the direction of the snake accordingly
@@ -95,14 +100,13 @@ func _set_direction():
 	if Input.is_action_pressed("ui_up") and old_direction.y == 0:
 		_new_direction = Vector2(0, -1)
 	direction = _new_direction
-	if fps_counter >= move_frames_per_forced_frame:
-		old_direction = direction
 
 
 # Add a tail piece to the snake
 func _add_to_tail():
 	var _snake_tail = SnakeTail.instance()
-	get_node("../").add_child(_snake_tail)
+	get_node("../").call_deferred("add_child", _snake_tail)
+	Global.setup_rects(_snake_tail)
 	tail.append(_snake_tail)
 	tail[tail.size() - 1].position = _last_tail_pos
 
@@ -137,6 +141,7 @@ func _animate_snake():
 		_animate(self, tail[0])
 		_hide_rect(tail[0])
 		_animate(tail[0], self)
+	
 	# Animate Tail
 	if tail.size() > 1:
 		_animate(tail[0], tail[1])
