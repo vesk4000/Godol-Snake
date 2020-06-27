@@ -1,21 +1,26 @@
 extends Control
 
 signal start_game
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
 
+const MenuHowToPlay = preload("res://UI/MenuHowToPlay.tscn");
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	Global.quick_tween($VBoxContainer, "rect_position",
+			Vector2(0, -600), Vector2(0, 0), 0.25, "")
+	Global.quick_tween($VBoxContainer, "rect_size",
+			Vector2(600, 1800), Vector2(600, 600), 0.25, "")
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
+func close_menu():
+	var menu_how_to_play = MenuHowToPlay.instance()
+	get_node("../").add_child(menu_how_to_play)
+	queue_free()
 
 func _on_Button_pressed():
-	emit_signal("start_game")
-	queue_free()
+	pass
+
+func _on_Button2_pressed():
+	Global.quick_tween($VBoxContainer, "rect_position",
+			Vector2(0, 0), Vector2(0, -600), 0.25, "close_menu", self)
+	Global.quick_tween($VBoxContainer, "rect_size",
+			Vector2(600, 600), Vector2(600, 1800), 0.25, "")

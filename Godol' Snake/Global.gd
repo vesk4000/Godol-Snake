@@ -24,6 +24,7 @@ func _set_screen_height(var _new_value):
 func _get_screen_height():
 	return ProjectSettings.get_setting("display/window/size/height")
 
+
 func setup_rects(var _self):
 	_self.get_node("Rect/MainColorRect").margin_top = tile_padding
 	_self.get_node("Rect/MainColorRect").margin_bottom = tile_size - tile_padding
@@ -55,3 +56,16 @@ func wrap(var number, var min_value, var max_value):
 	if number >= max_value:
 		return fmod(number, max_value)
 	return number
+
+
+func quick_tween(node, variable, start_value, end_value, duration, end_function, end_function_node = self):
+	node.set(variable, start_value)
+	var tween = Tween.new()
+	add_child(tween)
+	tween.interpolate_property(node, variable, start_value, end_value, duration,
+			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	tween.start()
+	if end_function_node == self:
+		end_function_node = node
+	if end_function != "":
+		tween.connect("tween_all_completed", end_function_node, end_function)
