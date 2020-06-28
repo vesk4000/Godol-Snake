@@ -58,7 +58,7 @@ func wrap(var number, var min_value, var max_value):
 	return number
 
 
-func quick_tween(node, variable, start_value, end_value, duration, end_function, end_function_node = self):
+func quick_tween(node, variable, start_value, end_value, duration, end_function = "", end_function_node = self):
 	node.set(variable, start_value)
 	var tween = Tween.new()
 	add_child(tween)

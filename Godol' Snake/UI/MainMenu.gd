@@ -6,9 +6,9 @@ const MenuHowToPlay = preload("res://UI/MenuHowToPlay.tscn");
 
 func _ready():
 	Global.quick_tween($VBoxContainer, "rect_position",
-			Vector2(0, -600), Vector2(0, 0), 0.25, "")
+			Vector2(0, -600), Vector2(0, 0), 0.25)
 	Global.quick_tween($VBoxContainer, "rect_size",
-			Vector2(600, 1800), Vector2(600, 600), 0.25, "")
+			Vector2(600, 1800), Vector2(600, 600), 0.25)
 
 
 func close_menu():
