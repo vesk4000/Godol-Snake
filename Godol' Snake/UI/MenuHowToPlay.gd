@@ -20,4 +20,5 @@ func close_menu():
 	var MainMenu = load("res://UI/MainMenu.tscn")
 	var main_menu = MainMenu.instance()
 	get_parent().add_child(main_menu)
+	main_menu.get_node("VBoxContainer/CenterContainer2/VBoxContainer/Button2").grab_focus()
 	queue_free()

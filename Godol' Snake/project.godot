@@ -17,6 +17,7 @@ _global_script_class_icons={
 
 config/name="Godol' Snake"
 run/main_scene="res://Level.tscn"
+boot_splash/image="res://UI/Loading Screen Square.png"
 config/icon="res://icon.png"
 
 [autoload]

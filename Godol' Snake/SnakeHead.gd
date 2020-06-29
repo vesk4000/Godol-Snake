@@ -6,6 +6,10 @@ enum GameStates {PAUSED, RUNNING, END}
 var game_state = GameStates.PAUSED
 var game_has_started = false
 
+# Game
+var score = 0
+var time = 0
+
 # Drection
 var direction = Vector2(1, 0)
 var old_direction = direction
@@ -42,9 +46,18 @@ func _ready():
 
 
 # The main loop of the game
-func _process(_delta):
+func _process(delta):
 	if game_state != GameStates.RUNNING:
 		return
+	
+	# Handle time
+	time += delta
+	if(time >= 60):
+		get_parent().get_parent().get_node("GUI/HUD/Time").text = \
+				"Time: " + str(int(time) / 60) + "m " + str(int(time) % 60) + "s"
+	else:
+		get_parent().get_parent().get_node("GUI/HUD/Time").text = \
+				"Time: " + str(int(time)) + "s"
 	
 	# Handle direction
 	_set_direction()
@@ -114,6 +127,8 @@ func _add_to_tail():
 # Eat fruit
 func _eat_fruit():
 	tail_to_add += 1
+	score += 1
+	get_parent().get_parent().get_node("GUI/HUD/Score").text = "Score: " + str(score)
 
 # Animate each part of the snake
 # checks where the _check part of the snake is comapred to the _root
@@ -174,5 +189,8 @@ func _get_right_rect(var _node):
 
 
 # Signal connected to the Main Menu in order to start the game
-func _on_Control_start_game():
+func _on_MainMenu_start_game():
+	var HUD = load("res://UI/HUD.tscn")
+	var _hud = HUD.instance()
+	get_parent().get_parent().get_node("GUI").add_child(_hud)
 	game_state = GameStates.RUNNING

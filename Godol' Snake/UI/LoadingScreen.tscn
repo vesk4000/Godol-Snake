@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://UI/Loading Screen Square.png" type="Texture" id=1]
+[ext_resource path="res://UI/LoadingScreen.gd" type="Script" id=2]
+
+[node name="LoadingScreen" type="TextureRect"]
+margin_right = 600.0
+margin_bottom = 600.0
+texture = ExtResource( 1 )
+expand = true
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

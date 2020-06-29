@@ -58,14 +58,16 @@ func wrap(var number, var min_value, var max_value):
 	return number
 
 
-func quick_tween(node, variable, start_value, end_value, duration, end_function = "", end_function_node = self):
+func quick_tween(node, variable, start_value, end_value, duration,
+		end_function = "", end_function_node = self, trans_type = Tween.TRANS_LINEAR, ease_type = Tween.EASE_IN_OUT):
 	node.set(variable, start_value)
 	var tween = Tween.new()
 	add_child(tween)
 	tween.interpolate_property(node, variable, start_value, end_value, duration,
-			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+			trans_type, ease_type)
 	tween.start()
 	if end_function_node == self:
 		end_function_node = node
 	if end_function != "":
 		tween.connect("tween_all_completed", end_function_node, end_function)
+	tween.connect("tween_all_completed", tween, "queue_free")
