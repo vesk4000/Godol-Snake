@@ -1,9 +1,6 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://UI/Fonts/RobotoSlab-Regular.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://Button.gd" type="Script" id=2]
-[ext_resource path="res://Button2.gd" type="Script" id=3]
-
 
 [sub_resource type="DynamicFont" id=1]
 size = 72
@@ -78,7 +75,6 @@ action_mode = 0
 text = "Play"
 flat = true
 align = 0
-script = ExtResource( 2 )
 
 [node name="Button2" type="Button" parent="VBoxContainer/CenterContainer2/VBoxContainer"]
 margin_top = 53.0
@@ -88,7 +84,6 @@ custom_fonts/font = SubResource( 6 )
 text = "Quit"
 flat = true
 align = 0
-script = ExtResource( 3 )
 [connection signal="focus_entered" from="VBoxContainer/CenterContainer2/VBoxContainer/Button" to="VBoxContainer/CenterContainer2/VBoxContainer/Button" method="_on_Button_focus_entered"]
 [connection signal="focus_exited" from="VBoxContainer/CenterContainer2/VBoxContainer/Button" to="VBoxContainer/CenterContainer2/VBoxContainer/Button" method="_on_Button_focus_exited"]
 [connection signal="focus_entered" from="VBoxContainer/CenterContainer2/VBoxContainer/Button2" to="VBoxContainer/CenterContainer2/VBoxContainer/Button2" method="_on_Button2_focus_entered"]

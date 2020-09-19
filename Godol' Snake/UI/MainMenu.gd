@@ -9,6 +9,8 @@ func _ready():
 		Vector2(0, -600), Vector2(0, 0), 0.25)
 	Global.quick_tween($VBoxContainer, "rect_size",
 			Vector2(600, 1800), Vector2(600, 600), 0.25)
+	if($"../../Node2D/Fruit"):
+		connect("start_game", $"../../Node2D/SnakeHead", "_on_MainMenu_start_game")
 
 
 

@@ -28,4 +28,3 @@ __meta__ = {
 [node name="MainMenu" parent="GUI" instance=ExtResource( 4 )]
 
 [node name="LoadingScreen" parent="GUI" instance=ExtResource( 5 )]
-[connection signal="start_game" from="GUI/MainMenu" to="Node2D/SnakeHead" method="_on_MainMenu_start_game"]
