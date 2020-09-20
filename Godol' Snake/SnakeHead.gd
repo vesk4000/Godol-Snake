@@ -15,7 +15,11 @@ var direction = Vector2(1, 0)
 var old_direction = direction
 
 # FPS
-var movement_fps = 10
+var movement_fps = 10 setget _set_movement_fps
+func _set_movement_fps(_new_movement_fps):
+	movement_fps = _new_movement_fps
+	move_frames_per_forced_frame = round(forced_fps / _new_movement_fps)
+
 var forced_fps = 100
 var move_frames_per_forced_frame = round(forced_fps / movement_fps)
 var fps_counter = 0
@@ -59,8 +63,14 @@ func _process(delta):
 		get_parent().get_parent().get_node("GUI/HUD/Time").text = \
 				"Time: " + str(int(time)) + "s"
 	
-	# Handle direction
+	# Handle Direction
 	_set_direction()
+	
+	# Handle Sprinting
+	if Input.is_action_pressed("sprint"):
+		self.movement_fps = 20
+	else:
+		self.movement_fps = 10
 	
 	# Move the snake
 	fps_counter += 1
