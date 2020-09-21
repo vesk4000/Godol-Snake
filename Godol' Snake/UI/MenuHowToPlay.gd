@@ -2,6 +2,7 @@ extends Control
 
 const PauseBackground = preload("res://UI/PauseBackground.tscn")
 var pause_background
+var last_menu_path
 
 
 func _ready():
@@ -17,8 +18,8 @@ func _on_Button_pressed():
 	pause_background.close()
 
 func close_menu():
-	var MainMenu = load("res://UI/MainMenu.tscn")
-	var main_menu = MainMenu.instance()
-	get_parent().add_child(main_menu)
-	main_menu.get_node("VBoxContainer/CenterContainer2/VBoxContainer/Button2").grab_focus()
+	var LastMenu = load(last_menu_path)
+	var last_menu = LastMenu.instance()
+	get_parent().add_child(last_menu)
+	#main_menu.get_node("VBoxContainer/CenterContainer2/VBoxContainer/Button2").grab_focus()
 	queue_free()

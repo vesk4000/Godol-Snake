@@ -6,6 +6,8 @@ var tile_padding = 2
 
 var rng = RandomNumberGenerator.new()
 
+onready var SnakeHead = get_node("../Level/Node2D/SnakeHead")
+
 # Globalise screen_width and screen_height
 var screen_width = ProjectSettings.get_setting("display/window/size/width") \
 		setget _set_screen_width, _get_screen_width
@@ -23,6 +25,14 @@ func _set_screen_height(var _new_value):
 	OS.window_size = Vector2(OS.window_size.x, _new_value)
 func _get_screen_height():
 	return ProjectSettings.get_setting("display/window/size/height")
+
+const MenuPause = preload("res://UI/MenuPause.tscn")
+
+func _process(_delta):
+	if Input.is_action_just_pressed("pause") and SnakeHead.game_state != SnakeHead.GameStates.PAUSED:
+		SnakeHead.game_state = SnakeHead.GameStates.PAUSED
+		var menu_pause = MenuPause.instance()
+		get_parent().get_node("Level/GUI").add_child(menu_pause)
 
 
 func setup_rects(var _self):

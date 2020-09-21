@@ -26,6 +26,7 @@ func start_game():
 
 func open_how_to_play():
 	var menu_how_to_play = MenuHowToPlay.instance()
+	menu_how_to_play.last_menu_path = filename
 	get_node("../").add_child(menu_how_to_play)
 	queue_free()
 
