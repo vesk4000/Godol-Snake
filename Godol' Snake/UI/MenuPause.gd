@@ -3,6 +3,7 @@ extends Control
 
 const PauseBackground = preload("res://UI/PauseBackground.tscn")
 const MenuHowToPlay = preload("res://UI/MenuHowToPlay.tscn")
+const UnLoadingScreen = preload("res://UI/UnLoadingScreen.tscn")
 var pause_background
 var in_animation = false
 var run_after_close
@@ -53,3 +54,17 @@ func open_how_to_play():
 	var menu_how_to_play = MenuHowToPlay.instance()
 	menu_how_to_play.last_menu_path = filename
 	get_node("../").add_child(menu_how_to_play)
+
+
+func _on_Button6_pressed():
+	get_tree().quit()
+
+
+func _on_Button5_pressed():
+	in_animation = true
+#	OS.execute(OS.get_executable_path(), [], false)
+#	get_tree().quit()
+#	Global.restart()
+#	get_tree().change_scene("res://Level.tscn")
+	var unloading_screen = UnLoadingScreen.instance()
+	get_parent().add_child(unloading_screen)

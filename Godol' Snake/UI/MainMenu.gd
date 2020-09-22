@@ -35,3 +35,7 @@ func _on_Button2_pressed():
 			Vector2(0, 0), Vector2(0, -600), 0.25, "open_how_to_play", self)
 	Global.quick_tween($VBoxContainer, "rect_size",
 			Vector2(600, 600), Vector2(600, 1800), 0.25, "")
+
+
+func _on_Button3_pressed():
+	get_tree().quit()

@@ -83,3 +83,5 @@ margin_bottom = 176.0
 text = "Exit"
 [connection signal="pressed" from="VBoxContainer/CenterContainer2/VBoxContainer/Button" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="VBoxContainer/CenterContainer2/VBoxContainer/Button2" to="." method="_on_Button2_pressed"]
+[connection signal="pressed" from="VBoxContainer/CenterContainer2/VBoxContainer/Button5" to="." method="_on_Button5_pressed"]
+[connection signal="pressed" from="VBoxContainer/CenterContainer2/VBoxContainer/Button6" to="." method="_on_Button6_pressed"]

@@ -8,6 +8,12 @@ var rng = RandomNumberGenerator.new()
 
 onready var SnakeHead = get_node("../Level/Node2D/SnakeHead")
 
+func _ready():
+	pass
+
+func restart():
+	SnakeHead = get_node("../Level/Node2D/SnakeHead")
+
 # Globalise screen_width and screen_height
 var screen_width = ProjectSettings.get_setting("display/window/size/width") \
 		setget _set_screen_width, _get_screen_width

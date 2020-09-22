@@ -33,6 +33,7 @@ var _last_tail_pos
 
 # Setup
 func _ready():
+	Global.restart()
 	Global.setup_rects(self)
 	
 	if get_parent().has_node("Fruit"):
