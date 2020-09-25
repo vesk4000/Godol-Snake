@@ -2,7 +2,7 @@ extends Node2D
 
 
 # Game states
-enum GameStates {PAUSED, RUNNING, END}
+enum GameStates {PAUSED, RUNNING, DYING}
 var game_state = GameStates.PAUSED
 var game_has_started = false
 
@@ -29,6 +29,8 @@ const SnakeTail = preload("res://SnakeTail.tscn")
 var tail_to_add = 6
 var tail = []
 var _last_tail_pos
+
+
 
 
 # Setup
@@ -78,6 +80,17 @@ func _process(delta):
 	if fps_counter >= move_frames_per_forced_frame:
 		fps_counter = 0
 		
+		# Check for collision with the rest of the snake
+		var has_collided = false
+		var new_snake_head = position + direction * Global.tile_size
+		for i in range(tail.size()):
+			if new_snake_head == tail[i].position \
+					and not (i == tail.size() - 1 and tail_to_add == 0):
+				has_collided = true
+				break
+		if has_collided:
+			die()
+		
 		# Get the position of the very last element of the snake
 		# so that we can create a tail part behind the snake
 		if(tail.size() > 0):
@@ -110,6 +123,15 @@ func _process(delta):
 		
 		# Animate Snake
 		_animate_snake();
+
+
+# Handle Death
+func die():
+	game_state = GameStates.DYING
+	Global.quick_timer(self, 3, "has_died")
+
+func has_died():
+	print("death")
 
 
 # Gets the input and sets the direction of the snake accordingly

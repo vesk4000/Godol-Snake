@@ -87,3 +87,15 @@ func quick_tween(node, variable, start_value, end_value, duration,
 	if end_function != "":
 		tween.connect("tween_all_completed", end_function_node, end_function)
 	tween.connect("tween_all_completed", tween, "queue_free")
+
+
+func quick_timer(node, duration, end_function, end_function_node = self):
+	var timer = Timer.new()
+	add_child(timer)
+	timer.one_shot = true
+	timer.start(duration)
+	if end_function_node == self:
+		end_function_node = node
+	if end_function != "":
+		timer.connect("timeout", end_function_node, end_function)
+	timer.connect("timeout", timer, "queue_free")
