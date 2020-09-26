@@ -3,10 +3,13 @@ extends Node
 
 var tile_size = 20
 var tile_padding = 2
+var skip_main_menu = false
 
 var rng = RandomNumberGenerator.new()
 
 onready var SnakeHead = get_node("../Level/Node2D/SnakeHead")
+
+const FlickerNode = preload("res://Flicker.tscn")
 
 func _ready():
 	pass
@@ -99,3 +102,17 @@ func quick_timer(node, duration, end_function, end_function_node = self):
 	if end_function != "":
 		timer.connect("timeout", end_function_node, end_function)
 	timer.connect("timeout", timer, "queue_free")
+
+
+func quick_flicker(node, wait_time, first_flicker_function,
+		second_flicker_function, flicker_function_node = self):
+	var flicker = FlickerNode.instance()
+	add_child(flicker)
+	if flicker_function_node == self:
+		flicker_function_node = node
+	if first_flicker_function != "":
+		flicker.connect("first_flicker", flicker_function_node, first_flicker_function)
+	if second_flicker_function != "":
+		flicker.connect("second_flicker", flicker_function_node, second_flicker_function)
+	flicker.start(wait_time)
+	return flicker

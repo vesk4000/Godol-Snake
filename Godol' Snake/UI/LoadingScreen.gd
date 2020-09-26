@@ -1,6 +1,6 @@
 extends TextureRect
 
-
+var skip_main_menu = false
 
 func _on_Timer_timeout():
 	Global.quick_tween(self, "rect_position",

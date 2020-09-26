@@ -2,7 +2,7 @@ extends Node2D
 
 
 # Game states
-enum GameStates {PAUSED, RUNNING, DYING}
+enum GameStates {PAUSED, RUNNING, DYING, DIED}
 var game_state = GameStates.PAUSED
 var game_has_started = false
 
@@ -30,8 +30,9 @@ var tail_to_add = 6
 var tail = []
 var _last_tail_pos
 
-
-
+# Death
+var flicker
+const GameOverMenu = preload("res://UI/GameOverMenu.tscn")
 
 # Setup
 func _ready():
@@ -90,6 +91,7 @@ func _process(delta):
 				break
 		if has_collided:
 			die()
+			return
 		
 		# Get the position of the very last element of the snake
 		# so that we can create a tail part behind the snake
@@ -129,9 +131,24 @@ func _process(delta):
 func die():
 	game_state = GameStates.DYING
 	Global.quick_timer(self, 3, "has_died")
+	flicker = Global.quick_flicker(self, 0.25, "hide_snake", "show_snake")
+
+func hide_snake():
+	self.visible = false
+	for i in range(tail.size()):
+		tail[i].visible = false
+
+func show_snake():
+	self.visible = true
+	for i in range(tail.size()):
+		tail[i].visible = true
 
 func has_died():
-	print("death")
+	flicker.queue_free()
+	call_deferred("show_snake")
+	game_state = GameStates.DIED
+	var game_over_menu = GameOverMenu.instance()
+	get_node("../../GUI").add_child(game_over_menu)
 
 
 # Gets the input and sets the direction of the snake accordingly

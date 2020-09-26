@@ -61,10 +61,21 @@ func _on_Button6_pressed():
 
 
 func _on_Button5_pressed():
+	if in_animation:
+		return
 	in_animation = true
 #	OS.execute(OS.get_executable_path(), [], false)
 #	get_tree().quit()
 #	Global.restart()
 #	get_tree().change_scene("res://Level.tscn")
+	var unloading_screen = UnLoadingScreen.instance()
+	get_parent().add_child(unloading_screen)
+
+
+func _on_Button7_pressed():
+	if in_animation:
+		return
+	in_animation = true
+	Global.skip_main_menu = true
 	var unloading_screen = UnLoadingScreen.instance()
 	get_parent().add_child(unloading_screen)
