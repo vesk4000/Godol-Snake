@@ -13,35 +13,49 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Time" type="Label" parent="."]
-margin_top = 1.0
-margin_right = 53.0
-margin_bottom = 21.0
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 600.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Time" type="Label" parent="HBoxContainer"]
+margin_right = 197.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_fonts/font = ExtResource( 2 )
 text = "Time: "
+valign = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Score" type="Label" parent="."]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -28.0
-margin_right = 28.0
+[node name="Score" type="Label" parent="HBoxContainer"]
+margin_left = 201.0
+margin_right = 398.0
 margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_fonts/font = ExtResource( 2 )
 text = "Score: 0"
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Highscore" type="Label" parent="."]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -95.0
+[node name="Highscore" type="Label" parent="HBoxContainer"]
+margin_left = 402.0
+margin_right = 600.0
 margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_fonts/font = ExtResource( 2 )
-text = "Highscore: "
+text = "Highscore:"
+align = 2
+valign = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }

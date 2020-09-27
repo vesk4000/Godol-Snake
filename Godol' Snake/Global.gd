@@ -11,34 +11,72 @@ onready var SnakeHead = get_node("../Level/Node2D/SnakeHead")
 
 const FlickerNode = preload("res://Flicker.tscn")
 
+var save_path = "user://save.cfg"
+var config = ConfigFile.new()
+var load_response = config.load(save_path)
+
+var highscore = 0 setget _set_highscore, _get_highscore
+func _set_highscore(_highscore):
+	highscore = _highscore
+	print(load_response)
+	print(OK)
+	if load_response == OK:
+		config.set_value("PlayerData", "Highscore", _highscore)
+		config.save(save_path)
+func _get_highscore():
+	if load_response == OK:
+		highscore = config.get_value("PlayerData", "Highscore")
+	return highscore
+
 func _ready():
-	pass
+	if load_response == OK:
+		if not config.has_section_key("PlayerData", "Highscore"):
+			config.set_value("PlayerData", "Highscore", 0)
+			config.save(save_path)
 
 func restart():
 	SnakeHead = get_node("../Level/Node2D/SnakeHead")
 
 # Globalise screen_width and screen_height
-var screen_width = ProjectSettings.get_setting("display/window/size/width") \
+var screen_width = ProjectSettings.get_setting("display/window/size/test_width") \
 		setget _set_screen_width, _get_screen_width
 func _set_screen_width(var _new_value):
 	screen_width = _new_value
-	ProjectSettings.set_setting("display/window/size/width", _new_value)
+	ProjectSettings.set_setting("display/window/size/test_width", _new_value)
 	OS.window_size = Vector2(_new_value, OS.window_size.y)
 func _get_screen_width():
-	return ProjectSettings.get_setting("display/window/size/width")
-var screen_height = ProjectSettings.get_setting("display/window/size/height") \
+	return ProjectSettings.get_setting("display/window/size/test_width")
+var screen_height = ProjectSettings.get_setting("display/window/size/test_height") \
 		setget _set_screen_height, _get_screen_height
 func _set_screen_height(var _new_value):
 	screen_height = _new_value
-	ProjectSettings.set_setting("display/window/size/height", _new_value)
+	ProjectSettings.set_setting("display/window/size/test_height", _new_value)
 	OS.window_size = Vector2(OS.window_size.x, _new_value)
 func _get_screen_height():
+	return ProjectSettings.get_setting("display/window/size/test_height")
+
+# Globalise base_width and base_height
+var base_width = ProjectSettings.get_setting("display/window/size/width") \
+		setget _set_base_width, _get_base_width
+func _set_base_width(var _new_value):
+	base_width = _new_value
+	ProjectSettings.set_setting("display/window/size/width", _new_value)
+	OS.window_size = Vector2(_new_value, OS.window_size.y)
+func _get_base_width():
+	return ProjectSettings.get_setting("display/window/size/width")
+var base_height = ProjectSettings.get_setting("display/window/size/height") \
+		setget _set_base_height, _get_base_height
+func _set_base_height(var _new_value):
+	base_height = _new_value
+	ProjectSettings.set_setting("display/window/size/height", _new_value)
+	OS.window_size = Vector2(OS.window_size.x, _new_value)
+func _get_base_height():
 	return ProjectSettings.get_setting("display/window/size/height")
 
 const MenuPause = preload("res://UI/MenuPause.tscn")
 
 func _process(_delta):
-	if Input.is_action_just_pressed("pause") and SnakeHead.game_state != SnakeHead.GameStates.PAUSED:
+	if Input.is_action_just_pressed("pause") and SnakeHead.game_state == SnakeHead.GameStates.RUNNING:
 		SnakeHead.game_state = SnakeHead.GameStates.PAUSED
 		var menu_pause = MenuPause.instance()
 		get_parent().get_node("Level/GUI").add_child(menu_pause)

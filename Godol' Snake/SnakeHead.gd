@@ -2,7 +2,7 @@ extends Node2D
 
 
 # Game states
-enum GameStates {PAUSED, RUNNING, DYING, DIED}
+enum GameStates {PAUSED, RUNNING, DYING, DIED, WINNING, WON}
 var game_state = GameStates.PAUSED
 var game_has_started = false
 
@@ -33,6 +33,7 @@ var _last_tail_pos
 # Death
 var flicker
 const GameOverMenu = preload("res://UI/GameOverMenu.tscn")
+const YouWinMenu = preload("res://UI/YouWinMenu.tscn")
 
 # Setup
 func _ready():
@@ -61,10 +62,10 @@ func _process(delta):
 	# Handle time
 	time += delta
 	if(time >= 60):
-		get_parent().get_parent().get_node("GUI/HUD/Time").text = \
+		get_parent().get_parent().get_node("GUI/HUD/HBoxContainer/Time").text = \
 				"Time: " + str(int(time) / 60) + "m " + str(int(time) % 60) + "s"
 	else:
-		get_parent().get_parent().get_node("GUI/HUD/Time").text = \
+		get_parent().get_parent().get_node("GUI/HUD/HBoxContainer/Time").text = \
 				"Time: " + str(int(time)) + "s"
 	
 	# Handle Direction
@@ -80,6 +81,11 @@ func _process(delta):
 	fps_counter += 1
 	if fps_counter >= move_frames_per_forced_frame:
 		fps_counter = 0
+		
+		# Check for Win
+		if tail.size() + 1 >= (Global.base_height / Global.tile_size) * (Global.base_height / Global.tile_size):
+			win()
+			return
 		
 		# Check for collision with the rest of the snake
 		var has_collided = false
@@ -133,6 +139,26 @@ func die():
 	Global.quick_timer(self, 3, "has_died")
 	flicker = Global.quick_flicker(self, 0.25, "hide_snake", "show_snake")
 
+func has_died():
+	flicker.queue_free()
+	call_deferred("show_snake")
+	game_state = GameStates.DIED
+	var game_over_menu = GameOverMenu.instance()
+	get_node("../../GUI").add_child(game_over_menu)
+
+# Handle Win
+func win():
+	game_state = GameStates.WINNING
+	Global.quick_timer(self, 3, "has_won")
+	flicker = Global.quick_flicker(self, 0.15, "hide_snake", "show_snake")
+
+func has_won():
+	flicker.queue_free()
+	call_deferred("show_snake")
+	game_state = GameStates.WON
+	var you_win_menu = YouWinMenu.instance()
+	get_node("../../GUI").add_child(you_win_menu)
+
 func hide_snake():
 	self.visible = false
 	for i in range(tail.size()):
@@ -142,13 +168,6 @@ func show_snake():
 	self.visible = true
 	for i in range(tail.size()):
 		tail[i].visible = true
-
-func has_died():
-	flicker.queue_free()
-	call_deferred("show_snake")
-	game_state = GameStates.DIED
-	var game_over_menu = GameOverMenu.instance()
-	get_node("../../GUI").add_child(game_over_menu)
 
 
 # Gets the input and sets the direction of the snake accordingly
@@ -178,7 +197,9 @@ func _add_to_tail():
 func _eat_fruit():
 	tail_to_add += 1
 	score += 1
-	get_parent().get_parent().get_node("GUI/HUD/Score").text = "Score: " + str(score)
+	get_parent().get_parent().get_node("GUI/HUD/HBoxContainer/Score").text = "Score: " + str(score)
+	if score > Global.highscore:
+		Global.highscore = score
 
 # Animate each part of the snake
 # checks where the _check part of the snake is comapred to the _root

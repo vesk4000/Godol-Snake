@@ -28,8 +28,8 @@ func _new_position():
 	position = _pos
 
 func _random_position() -> Vector2:
-	var _ans = Vector2(Global.rng.randi_range(0, floor(Global.screen_width / Global.tile_size)),
-		Global.rng.randi_range(0, floor(Global.screen_height / Global.tile_size)))
+	var _ans = Vector2(Global.rng.randi_range(0, floor(Global.base_width / Global.tile_size)),
+		Global.rng.randi_range(0, floor(Global.base_height / Global.tile_size)))
 	_ans.x = _ans.x * Global.tile_size
 	_ans.y = _ans.y * Global.tile_size
 	return _ans
