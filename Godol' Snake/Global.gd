@@ -11,28 +11,42 @@ onready var SnakeHead = get_node("../Level/Node2D/SnakeHead")
 
 const FlickerNode = preload("res://Flicker.tscn")
 
-var save_path = "user://save.cfg"
+const SAVE_PATH = "user://save.cfg"
 var config = ConfigFile.new()
-var load_response = config.load(save_path)
+
+func load_config():
+	var load_response = config.load(SAVE_PATH)
+	if load_response != OK:
+		save_config()
+
+func save_config():
+	config.save(SAVE_PATH)
 
 var highscore = 0 setget _set_highscore, _get_highscore
 func _set_highscore(_highscore):
 	highscore = _highscore
-	print(load_response)
-	print(OK)
-	if load_response == OK:
-		config.set_value("PlayerData", "Highscore", _highscore)
-		config.save(save_path)
+	config.set_value("PlayerData", "Highscore", _highscore)
+	save_config()
 func _get_highscore():
-	if load_response == OK:
-		highscore = config.get_value("PlayerData", "Highscore")
+	load_config()
+	highscore = config.get_value("PlayerData", "Highscore", 0)
 	return highscore
 
+var fullscreen = false setget _set_fullscreen, _get_fullscreen
+func _set_fullscreen(_fullscreen):
+	fullscreen = _fullscreen
+	config.set_value("Settings", "Fullscreen", _fullscreen)
+	save_config()
+	OS.window_fullscreen = _fullscreen
+func _get_fullscreen():
+	load_config()
+	fullscreen = config.get_value("Settings", "Fullscreen", false)
+	return fullscreen
+
+
 func _ready():
-	if load_response == OK:
-		if not config.has_section_key("PlayerData", "Highscore"):
-			config.set_value("PlayerData", "Highscore", 0)
-			config.save(save_path)
+	load_config()
+	self.fullscreen = self.fullscreen
 
 func restart():
 	SnakeHead = get_node("../Level/Node2D/SnakeHead")

@@ -90,5 +90,6 @@ text = "Exit"
 [connection signal="pressed" from="VBoxContainer/CenterContainer2/VBoxContainer/Button" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="VBoxContainer/CenterContainer2/VBoxContainer/Button7" to="." method="_on_Button7_pressed"]
 [connection signal="pressed" from="VBoxContainer/CenterContainer2/VBoxContainer/Button2" to="." method="_on_Button2_pressed"]
+[connection signal="pressed" from="VBoxContainer/CenterContainer2/VBoxContainer/Button3" to="." method="_on_Button3_pressed"]
 [connection signal="pressed" from="VBoxContainer/CenterContainer2/VBoxContainer/Button5" to="." method="_on_Button5_pressed"]
 [connection signal="pressed" from="VBoxContainer/CenterContainer2/VBoxContainer/Button6" to="." method="_on_Button6_pressed"]

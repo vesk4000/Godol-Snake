@@ -4,6 +4,7 @@ extends Control
 const PauseBackground = preload("res://UI/PauseBackground.tscn")
 const MenuHowToPlay = preload("res://UI/MenuHowToPlay.tscn")
 const UnLoadingScreen = preload("res://UI/UnLoadingScreen.tscn")
+const MenuSettings = preload("res://UI/MenuSettings.tscn")
 var pause_background
 var in_animation = false
 var run_after_close
@@ -79,3 +80,12 @@ func _on_Button7_pressed():
 	Global.skip_main_menu = true
 	var unloading_screen = UnLoadingScreen.instance()
 	get_parent().add_child(unloading_screen)
+
+
+func _on_Button3_pressed():
+	close("open_settings")
+
+func open_settings():
+	var menu_settings = MenuSettings.instance()
+	menu_settings.last_menu_path = filename
+	get_node("../").add_child(menu_settings)

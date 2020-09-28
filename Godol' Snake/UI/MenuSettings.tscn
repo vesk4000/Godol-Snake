@@ -1,14 +1,13 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://UI/MenuButton.tscn" type="PackedScene" id=1]
-[ext_resource path="res://UI/Fonts/MainFont.tres" type="DynamicFont" id=2]
+[ext_resource path="res://UI/MenuSettings.gd" type="Script" id=2]
 [ext_resource path="res://UI/Fonts/MediumTitleFont.tres" type="DynamicFont" id=3]
-[ext_resource path="res://UI/MenuHowToPlay.gd" type="Script" id=4]
 
-[node name="MenuHowToPlay" type="Control"]
+[node name="MenuSettings" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 4 )
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -24,7 +23,7 @@ __meta__ = {
 margin_right = 600.0
 margin_bottom = 65.0
 custom_fonts/font = ExtResource( 3 )
-text = "How to Play"
+text = "Settings"
 align = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer"]
@@ -34,17 +33,35 @@ margin_bottom = 560.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label2" type="Label" parent="VBoxContainer/CenterContainer"]
-margin_left = 134.0
-margin_top = 189.0
-margin_right = 466.0
-margin_bottom = 301.0
-custom_fonts/font = ExtResource( 2 )
-text = "Change the snake's direction.
-It moves by itself.
-Eat fruits to increase your score.
-Eating fruit also increases your length.
-Don't cross your tail, or it's game over."
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/CenterContainer"]
+margin_left = 205.0
+margin_top = 187.0
+margin_right = 395.0
+margin_bottom = 303.0
+
+[node name="Button" parent="VBoxContainer/CenterContainer/VBoxContainer" instance=ExtResource( 1 )]
+margin_right = 190.0
+margin_bottom = 26.0
+text = "Fullscreen: Off"
+default_for_focus = true
+
+[node name="Button2" parent="VBoxContainer/CenterContainer/VBoxContainer" instance=ExtResource( 1 )]
+margin_top = 30.0
+margin_right = 190.0
+margin_bottom = 56.0
+text = "Resolution: 600 x 600"
+
+[node name="Button3" parent="VBoxContainer/CenterContainer/VBoxContainer" instance=ExtResource( 1 )]
+margin_top = 60.0
+margin_right = 190.0
+margin_bottom = 86.0
+text = "Music: Off"
+
+[node name="Button4" parent="VBoxContainer/CenterContainer/VBoxContainer" instance=ExtResource( 1 )]
+margin_top = 90.0
+margin_right = 190.0
+margin_bottom = 116.0
+text = "Sounds: Off"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_top = 564.0
@@ -74,9 +91,9 @@ __meta__ = {
 margin_right = 54.0
 margin_bottom = 26.0
 text = "Back"
-default_for_focus = true
 
 [node name="Tween" type="Tween" parent="."]
 
 [node name="Tween2" type="Tween" parent="."]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/MarginContainer/Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="VBoxContainer/CenterContainer/VBoxContainer/Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/MarginContainer/Button" to="." method="_on_Button_Back_pressed"]
